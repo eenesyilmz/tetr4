@@ -58,14 +58,27 @@
             letter-spacing: -1.5px;
             line-height: 1;
             text-transform: uppercase;
+            display: flex;
+            align-items: center;
         }
 
         .brand-header span {
-            color: var(--accent-green);
+            display: inline-flex;
+            align-items: center;
+            height: 1em;
+            vertical-align: middle;
+            margin-left: 2px;
+        }
+
+        .brand-header span img {
+            height: 100%;
+            width: auto;
+            max-height: 1.1em;
+            object-fit: contain;
         }
 
         .brand-sub {
-            font-size: 0.65rem;
+            font-size: 1.00rem;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 5.5px;
@@ -311,7 +324,7 @@
     <div class="premium-wrapper">
         
         <div class="brand-group">
-            <div class="brand-header">TETR<span>4</span></div>
+            <div class="brand-header">TETR<span><img src="logo.png.png" alt="logo"></span></div>
             <div class="brand-sub">digital</div>
         </div>
 
@@ -336,6 +349,10 @@
                 <h3><i class="fa-solid fa-clapperboard"></i> Tetr4 Digital</h3>
                 <p>Dijital dünyada iz bırakan yapımcılık süreçlerini, yüksek prodüksiyonlu estetik medya içeriklerini ve markaları doğru kitlelerle buluşturan Influencer operasyonlarını yönetir.</p>
             </div>
+            <div class="service-row">
+                <h3><i class="fa-solid fa-graduation-cap"></i> Tetr4 Agent</h3>
+                <p>Geleceğin potansiyeline sahip genç beyinlere; ücretsiz yazılım, dijital girişimcilik ve influencer marketing alanlarında uçtan uca mentörlük ve modern eğitim modelleri sağlar.</p>
+            </div>
         </div>
 
         <form id="waitlist-form">
@@ -350,7 +367,7 @@
         
         <div class="footer-action">
             <div class="footer-info">
-                &copy; 2026 Tetr4 Digital &mdash; Enes Yılmaz &mdash; <a href="mailto:enes@tetr4digital.com">enes@tetr4digital.com</a>
+                &copy; 2026 Tetr4 Digital | Enes Yılmaz &mdash; <a href="mailto:enes@tetr4digital.com">enes@tetr4digital.com</a>
             </div>
         </div>
     </div>
@@ -384,9 +401,9 @@
             const formData = new FormData(form);
             const object = Object.fromEntries(formData);
         
-            object.access_key = "cd0b52fb-3559-44f2-831d-ba3ec3af6e79";
+            object.access_key = "114f6ed8-c73a-4182-87ac-69808f964bdc";
             object.subject = "Yeni Bekleme Listesi Kaydı - Tetr4 Digital";
-            object.from_name = "Tetr4 Web Bot";
+            object.from_name = "Tetr4 Digital";
 
             const json = JSON.stringify(object);
 
