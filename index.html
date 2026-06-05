@@ -16,7 +16,7 @@
             --accent-green: #00ff87;
             --border-line: rgba(0, 255, 135, 0.08);
             --text-main: #f8fafc;
-            --text-muted: #475569;
+            --text-muted: #475569;  
         }
 
         * {
@@ -29,12 +29,13 @@
             background-color: var(--bg-forest);
             color: var(--text-main);
             font-family: 'Space Grotesk', sans-serif;
-            height: 100vh;
+            min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: flex-start;
-            padding: 6vh 2rem 2rem 2rem;
-            overflow: hidden;
+            padding: 6vh 2rem 6vh 2rem;
+            overflow-x: hidden;
+            overflow-y: auto;
         }
 
         .premium-wrapper {
@@ -203,7 +204,7 @@
             align-items: center;
             gap: 2rem;
             flex-wrap: wrap;
-            padding-top: 1rem;
+            padding-top: 2rem;
         }
 
         .footer-info {
@@ -225,6 +226,8 @@
             padding-bottom: 0.5rem;
             width: 100%;
             max-width: 350px;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
         }
 
         input {
@@ -260,14 +263,46 @@
             opacity: 0.7;
         }
 
+        .status-message-box {
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-top: 0.5rem;
+            display: none;
+            padding: 0.8rem 0;
+            max-width: 350px;
+            animation: fadeIn 0.4s ease both;
+        }
+
+        .status-message-box.success {
+            color: var(--accent-green);
+            border-bottom: 1px solid var(--accent-green);
+        }
+
+        .status-message-box.error {
+            color: #ef4444;
+            border-bottom: 1px solid #ef4444;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(3px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 900px) {
+            h1 { font-size: 3rem; }
+        }
+
         @media (max-width: 800px) {
-            body { padding: 3rem 1.5rem; overflow-y: auto; height: auto; }
+            body { padding: 3rem 1.5rem; }
             h1 { font-size: 2.5rem; margin-bottom: 2rem; }
             .system-status { margin-bottom: 2.5rem; }
             .services-list { margin-bottom: 2.5rem; }
             .service-row { grid-template-columns: 1fr; gap: 0.5rem; padding: 1.5rem 0; }
             .footer-action { flex-direction: column; align-items: flex-start; gap: 2rem; }
             .input-line-box { max-width: 100%; }
+            .status-message-box { max-width: 100%; }
         }
     </style>
 </head>
@@ -299,20 +334,89 @@
             </div>
             <div class="service-row">
                 <h3><i class="fa-solid fa-clapperboard"></i> Tetr4 Digital</h3>
-                <p>Dijital dünyada iz bırakan yapımcılık süreçlerini, yüksek prodüksiyonlu estetik medya içeriklerini ve markaları doğru kitlelerle buluşturan Influencer operasyonlarını yönetir.</p>
+                <p>Dijital dünyada iz bırakan yapımcılık süreçlerini, Patients and Influencer operasyonlarını yönetir.</p>
             </div>
         </div>
 
+        <form id="waitlist-form">
+            <div class="input-line-box" id="input-container">
+                <input type="email" id="email-input" name="email" placeholder="Bekleme Listemize Katılın! (E-posta)" required>
+                <button type="submit" id="submit-btn">Katıl</button>
+            </div>
+        </form>
+
+        <div id="form-success" class="status-message-box success">Bekleme listemize katıldığınız için teşekkürler!</div>
+        <div id="form-error" class="status-message-box error">Geçersiz bir e-posta adresi girdiniz.</div>
+        
         <div class="footer-action">
             <div class="footer-info">
-                &copy; 2026 Tetr4 Digital &mdash; <a href="mailto:destek@tetr4digital.com">destek@tetr4digital.com</a>
-            </div>
-            <div class="input-line-box">
-                <input type="email" placeholder="E-posta adresiniz" required>
-                <button type="submit">Katıl</button>
+                &copy; 2026 Tetr4 Digital &mdash; Enes Yılmaz &mdash; <a href="mailto:enes@tetr4digital.com">enes@tetr4digital.com</a>
             </div>
         </div>
     </div>
+
+    <script>
+        const form = document.getElementById('waitlist-form');
+        const successBox = document.getElementById('form-success');
+        const errorBox = document.getElementById('form-error');
+        const submitBtn = document.getElementById('submit-btn');
+        const inputContainer = document.getElementById('input-container');
+        const emailInput = document.getElementById('email-input');
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            errorBox.style.display = 'none';
+            
+            const emailValue = emailInput.value.trim().toLowerCase();
+            const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(com|net|org|co|info|biz|me|io|tv|cc|xyz|tr|com\.tr|net\.tr|org\.tr)$/;
+            
+            if (!emailRegex.test(emailValue) || emailValue.includes('asdas.com') || emailValue.endsWith('@asdas.com')) {
+                errorBox.style.display = 'block';
+                submitBtn.innerText = "KATIL";
+                submitBtn.style.opacity = "1";
+                return;
+            }
+            
+            submitBtn.innerText = "GÖNDERİLİYOR...";
+            submitBtn.style.opacity = "0.5";
+
+            const formData = new FormData(form);
+            const object = Object.fromEntries(formData);
+        
+            object.access_key = "cd0b52fb-3559-44f2-831d-ba3ec3af6e79";
+            object.subject = "Yeni Bekleme Listesi Kaydı - Tetr4 Digital";
+            object.from_name = "Tetr4 Web Bot";
+
+            const json = JSON.stringify(object);
+
+            fetch('https://api.web3forms.com/submit', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: json
+            })
+            .then(async (response) => {
+                if (response.status == 200) {
+                    inputContainer.style.display = 'none';
+                    successBox.style.display = 'block';
+                } else {
+                    submitBtn.innerText = "KATIL";
+                    submitBtn.style.opacity = "1";
+                    errorBox.innerText = "Bir sorun oluştu. Lütfen tekrar deneyin.";
+                    errorBox.style.display = 'block';
+                }
+            })
+            .catch(error => {
+                submitBtn.innerText = "KATIL";
+                submitBtn.style.opacity = "1";
+                errorBox.innerText = "Bir sorun oluştu. Lütfen tekrar deneyin.";
+                errorBox.style.display = 'block';
+            });
+        });
+    </script>
 
 </body>
 </html>
